@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, MeshDistortMaterial, Sparkles, Stars } from '@react-three/drei'
 
@@ -41,7 +41,7 @@ const seeded = (n) => {
 }
 
 // Anello di piccoli cubi che orbita attorno all'oggetto
-function Orbit({ count = 60, radius = 3 }) {
+function Orbit({ count = 60, radius = 3, color = '#5ce1ff' }) {
   const ref = useRef()
   const items = useMemo(
     () =>
@@ -65,28 +65,52 @@ function Orbit({ count = 60, radius = 3 }) {
       {items.map((item, i) => (
         <mesh key={i} position={item.position} rotation={item.rotation} scale={item.scale}>
           <boxGeometry />
-          <meshStandardMaterial color="#5ce1ff" emissive="#5ce1ff" emissiveIntensity={1.2} />
+          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.2} />
         </mesh>
       ))}
     </group>
   )
 }
 
-export default function Scene() {
-  return (
-    <Canvas camera={{ position: [0, 0, 7], fov: 50 }} dpr={[1, 2]}>
-      <color attach="background" args={['#07060d']} />
-      <fog attach="fog" args={['#07060d', 8, 18]} />
+// Segue il tema della pagina: impostazione scelta oppure preferenza del dispositivo
+function useDark() {
+  const read = () => {
+    const t = document.documentElement.dataset.theme
+    if (t) return t === 'dark'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  }
+  const [dark, setDark] = useState(read)
 
-      <ambientLight intensity={0.4} />
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const update = () => setDark(read())
+    mq.addEventListener('change', update)
+    const mo = new MutationObserver(update)
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => {
+      mq.removeEventListener('change', update)
+      mo.disconnect()
+    }
+  }, [])
+
+  return dark
+}
+
+export default function Scene() {
+  const dark = useDark()
+
+  // Lo sfondo è trasparente: si vede il colore della pagina
+  return (
+    <Canvas camera={{ position: [0, 0, 7], fov: 50 }} dpr={[1, 2]} gl={{ alpha: true }}>
+      <ambientLight intensity={dark ? 0.4 : 0.9} />
       <directionalLight position={[5, 5, 5]} intensity={2} color="#ffffff" />
       <pointLight position={[-5, -3, 2]} intensity={30} color="#ff4fd8" />
       <pointLight position={[4, -2, -3]} intensity={25} color="#5ce1ff" />
 
       <Blob />
-      <Orbit />
-      <Sparkles count={120} scale={[12, 8, 8]} size={3} speed={0.4} color="#c9b8ff" />
-      <Stars radius={60} depth={40} count={1500} factor={3} fade speed={1} />
+      <Orbit color={dark ? '#5ce1ff' : '#2457e6'} />
+      <Sparkles count={120} scale={[12, 8, 8]} size={3} speed={0.4} color={dark ? '#c9b8ff' : '#6c47e8'} />
+      {dark && <Stars radius={60} depth={40} count={1500} factor={3} fade speed={1} />}
     </Canvas>
   )
 }

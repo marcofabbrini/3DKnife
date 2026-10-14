@@ -1,15 +1,65 @@
+/* Tema chiaro in stile One UI: grigio titanio, schede bianche, angoli molto arrotondati.
+   Il tema scuro segue le impostazioni del dispositivo. */
 :root {
-  --panel: rgba(255, 255, 255, 0.045);
-  --line: rgba(255, 255, 255, 0.1);
-  --muted: #9a93b8;
-  --cyan: #5ce1ff;
-  --violet: #7c5cff;
-  font: 17px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
-  color: #d9d5ee;
-  background: #07060d;
-  color-scheme: dark;
+  --bg: #eef0f5;
+  --panel: #ffffff;
+  --fill: rgba(18, 20, 28, 0.06);
+  --line: #d8dce8;
+  --fg: #12141c;
+  --muted: #586078;
+  --on-accent: #ffffff;
+  --accent: #2457e6;
+  --accent-2: #6c47e8;
+  --danger: #d6385c;
+  --ok: #178a55;
+  --warn: #b26a00;
+  --glow: rgba(36, 87, 230, 0.13);
+  --shadow: rgba(24, 32, 64, 0.22);
+  --display: 'Outfit', system-ui, sans-serif;
+  --body: 'Figtree', system-ui, sans-serif;
+  font: 17px/1.5 var(--body);
+  color: var(--fg);
+  background: var(--bg);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0b0c12;
+    --panel: #1a1d29;
+    --fill: rgba(255, 255, 255, 0.07);
+    --line: #2a2e40;
+    --fg: #eef0f8;
+    --muted: #a3a9c2;
+    --on-accent: #07101f;
+    --accent: #6fa0ff;
+    --accent-2: #a793ff;
+    --danger: #ff7a93;
+    --ok: #6ee7a8;
+    --warn: #ffb454;
+    --glow: rgba(111, 160, 255, 0.18);
+    --shadow: rgba(0, 0, 0, 0.7);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0c12;
+  --panel: #1a1d29;
+  --fill: rgba(255, 255, 255, 0.07);
+  --line: #2a2e40;
+  --fg: #eef0f8;
+  --muted: #a3a9c2;
+  --on-accent: #07101f;
+  --accent: #6fa0ff;
+  --accent-2: #a793ff;
+  --danger: #ff7a93;
+  --ok: #6ee7a8;
+  --warn: #ffb454;
+  --glow: rgba(111, 160, 255, 0.18);
+  --shadow: rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -22,9 +72,20 @@ html {
 
 body {
   margin: 0;
-  background: #07060d;
+  background-color: var(--bg);
+  background-image: radial-gradient(ellipse 70% 40% at 50% 0%, var(--glow), transparent 70%);
+  background-repeat: no-repeat;
 }
 
 #root {
   width: 100%;
+}
+
+h1,
+h2,
+.stat-value,
+.car-pct,
+.weather-temp,
+.timer-clock {
+  font-family: var(--display);
 }

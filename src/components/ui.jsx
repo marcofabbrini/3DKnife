@@ -6,8 +6,7 @@ export function Card({ title, subtitle, wide, children }) {
     <motion.section
       className={`card${wide ? ' wide' : ''}`}
       initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
       <header className="card-head">
@@ -20,7 +19,7 @@ export function Card({ title, subtitle, wide, children }) {
 }
 
 // Grafico a barre semplice in SVG. data: [{label, value, value2?}]
-export function BarChart({ data, color = '#7c5cff', color2 = '#5ce1ff', unit = '' }) {
+export function BarChart({ data, color = 'var(--accent-2)', color2 = 'var(--accent)', unit = '' }) {
   const max = Math.max(1, ...data.flatMap((d) => [d.value || 0, d.value2 || 0]))
   const W = 280
   const H = 90
@@ -42,12 +41,12 @@ export function BarChart({ data, color = '#7c5cff', color2 = '#5ce1ff', unit = '
               width={bw}
               height={Math.max(h1, d.value ? 2 : 0)}
               rx="3"
-              fill={color}
+              style={{ fill: color }}
             >
               <title>{`${d.label}: ${d.value || 0}${unit}`}</title>
             </rect>
             {hasTwo && (
-              <rect x={x + 1} y={H - h2} width={bw} height={Math.max(h2, d.value2 ? 2 : 0)} rx="3" fill={color2}>
+              <rect x={x + 1} y={H - h2} width={bw} height={Math.max(h2, d.value2 ? 2 : 0)} rx="3" style={{ fill: color2 }}>
                 <title>{`${d.label}: ${d.value2 || 0}${unit}`}</title>
               </rect>
             )}

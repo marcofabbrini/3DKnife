@@ -44,10 +44,10 @@ export default function Solar() {
         <Stat label="Prodotti nel mese" value={`${prod.toFixed(1)} kWh`} />
         <Stat label="Autoconsumo" value={prod > 0 ? `${selfUse.toFixed(0)}%` : '—'} hint="produzione non immessa in rete" />
       </div>
-      <BarChart data={series} unit=" kWh" color="#ffb454" color2="#5ce1ff" />
+      <BarChart data={series} unit=" kWh" color="var(--warn)" color2="var(--accent)" />
       <p className="legend muted small">
-        <span className="dot" style={{ background: '#ffb454' }} /> Prodotti
-        <span className="dot" style={{ background: '#5ce1ff' }} /> Consumati
+        <span className="dot" style={{ background: 'var(--warn)' }} /> Prodotti
+        <span className="dot" style={{ background: 'var(--accent)' }} /> Consumati
       </p>
       <label className="field">
         <span>Giorno</span>

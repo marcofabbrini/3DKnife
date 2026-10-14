@@ -72,7 +72,7 @@ export default function WorkHours() {
         <Stat label="Oggi" value={formatMinutes(todayTotal)} />
         <Stat label="Settimana" value={formatMinutes(week + elapsedMin)} />
       </div>
-      <BarChart data={series} unit=" h" color="#5ce1ff" />
+      <BarChart data={series} unit=" h" color="var(--accent)" />
       <form className="inline-form" onSubmit={addManual}>
         <input
           type="number"
