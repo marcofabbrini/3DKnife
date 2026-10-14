@@ -1,0 +1,25 @@
+:root {
+  font: 17px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: #d9d5ee;
+  background: #07060d;
+  color-scheme: dark;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #07060d;
+}
+
+#root {
+  width: 100%;
+}

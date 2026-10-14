@@ -1,0 +1,127 @@
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+.canvas-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #9a93b8;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px 14svh;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #5ce1ff;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2.4rem, 8vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #fff;
+  text-align: center;
+  perspective: 600px;
+}
+
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+}
+
+.letter {
+  display: inline-block;
+  will-change: transform;
+}
+
+.cta {
+  pointer-events: auto;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  color: #07060d;
+  background: linear-gradient(135deg, #5ce1ff, #b69cff);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(124, 92, 255, 0.45);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: #9a93b8;
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  50% {
+    transform: translate(-50%, 6px);
+  }
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 120px 20px;
+}
+
+.card {
+  padding: 28px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  text-align: left;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.card p {
+  margin: 0;
+  color: #a9a3c4;
+  line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: none;
+  }
+}
