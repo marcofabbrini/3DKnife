@@ -1,24 +1,27 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useCallback, useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import gsap from 'gsap'
 import './App.css'
-import Health from './components/Health'
-import Habits from './components/Habits'
-import Budget from './components/Budget'
-import Tasks from './components/Tasks'
-import WorkHours from './components/WorkHours'
-import Solar from './components/Solar'
-import ElectricCar from './components/ElectricCar'
-import Weather from './components/Weather'
-import GitHubCard from './components/GitHubCard'
-import Integrations from './components/Integrations'
-
-// La scena 3D si carica a parte, così le schede compaiono subito
-const Scene = lazy(() => import('./Scene'))
+import Stage3D from './components/Stage3D'
+import Sheet from './components/Sheet'
+import Customize from './components/Customize'
+import { CARDS } from './components/registry'
+import { safeUrl, useSettings } from './lib/settings'
 
 const TITLE = 'Il mio cruscotto'
 
 export default function App() {
+  const [settings] = useSettings()
+  const [openId, setOpenId] = useState(null)
+  const [customOpen, setCustomOpen] = useState(false)
+  const [today] = useState(() =>
+    new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' }),
+  )
+
+  const closeDetail = useCallback(() => setOpenId(null), [])
+  const closeCustom = useCallback(() => setCustomOpen(false), [])
+
+  // Titolo: le lettere entrano una alla volta
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.letter', {
@@ -27,25 +30,35 @@ export default function App() {
         duration: 0.9,
         ease: 'power4.out',
         stagger: 0.035,
-        delay: 0.2,
+        delay: 0.15,
       })
     })
     return () => ctx.revert()
   }, [])
 
-  const [today] = useState(() =>
-    new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' }),
-  )
+  // Tema scelto in Personalizza; "automatico" segue il dispositivo
+  useEffect(() => {
+    const root = document.documentElement
+    if (settings.theme === 'light' || settings.theme === 'dark') root.dataset.theme = settings.theme
+    else delete root.dataset.theme
+  }, [settings.theme])
+
+  const ids = settings.order.filter((id) => CARDS[id])
+
+  // Portafoglio e Documenti aprono direttamente il tuo sito, se il link è impostato
+  const openCard = (id) => {
+    const link = CARDS[id].link
+    const url = link ? safeUrl(settings[link]) : ''
+    if (url) window.open(url, '_blank', 'noopener,noreferrer')
+    else setOpenId(id)
+  }
+
+  const Detail = openId ? CARDS[openId].Detail : null
 
   return (
     <>
       <header className="top">
-        <div className="top-canvas" aria-hidden="true">
-          <Suspense fallback={null}>
-            <Scene />
-          </Suspense>
-        </div>
-        <div className="top-text">
+        <div className="top-title">
           <motion.p
             className="eyebrow"
             initial={{ opacity: 0, y: 8 }}
@@ -62,22 +75,31 @@ export default function App() {
             ))}
           </h1>
         </div>
+        <button type="button" className="btn" onClick={() => setCustomOpen(true)}>
+          Personalizza
+        </button>
       </header>
 
-      <main className="dashboard">
-        <Weather />
-        <Tasks />
-        <WorkHours />
-        <Health />
-        <Habits />
-        <Solar />
-        <ElectricCar />
-        <GitHubCard />
-        <Budget />
-        <Integrations />
+      <main className="main">
+        {ids.length > 0 ? (
+          <Stage3D key={ids.join('|')} ids={ids} layout={settings.layout} auto={settings.auto} onOpen={openCard} />
+        ) : (
+          <p className="empty">Nessuna scheda attiva. Apri Personalizza e aggiungine una.</p>
+        )}
       </main>
 
-      <footer className="foot muted small">I dati restano solo nel tuo browser.</footer>
+      <AnimatePresence>
+        {openId && (
+          <Sheet key="detail" title={CARDS[openId].title} onClose={closeDetail}>
+            <Detail />
+          </Sheet>
+        )}
+        {customOpen && (
+          <Sheet key="custom" title="Personalizza" onClose={closeCustom}>
+            <Customize />
+          </Sheet>
+        )}
+      </AnimatePresence>
     </>
   )
 }

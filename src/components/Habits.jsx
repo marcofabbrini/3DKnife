@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Card, Progress } from './ui'
 import { useLocalStorage } from '../lib/store'
+import { DEFAULT_HABITS } from '../lib/settings'
 import { lastDays, todayKey } from '../lib/dates'
-
-const DEFAULT_HABITS = ['Acqua', 'Movimento', 'Lettura']
 
 export default function Habits() {
   const [habits, setHabits] = useLocalStorage('habits', DEFAULT_HABITS)
