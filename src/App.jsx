@@ -9,6 +9,8 @@ import { CARDS } from './components/registry'
 import { safeUrl, useSettings } from './lib/settings'
 
 const TITLE = 'Il mio cruscotto'
+// Wallet integrato (cartella public/wallet): usato se non hai impostato un tuo indirizzo
+const WALLET_URL = new URL(`${import.meta.env.BASE_URL}wallet/index.html`, window.location.href).href
 
 export default function App() {
   const [settings] = useSettings()
@@ -48,7 +50,7 @@ export default function App() {
   // Portafoglio e Documenti aprono direttamente il tuo sito, se il link è impostato
   const openCard = (id) => {
     const link = CARDS[id].link
-    const url = link ? safeUrl(settings[link]) : ''
+    const url = link ? safeUrl(settings[link]) || WALLET_URL : ''
     if (url) window.open(url, '_blank', 'noopener,noreferrer')
     else setOpenId(id)
   }

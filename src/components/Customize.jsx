@@ -127,14 +127,14 @@ export default function Customize() {
         <h3 id="sec-links">Collegamenti</h3>
         <UrlField
           id="wallet-url"
-          label="Indirizzo del sito Portafoglio"
+          label="Portafoglio: indirizzo diverso (facoltativo)"
           value={settings.walletUrl}
           onChange={(v) => update({ walletUrl: v })}
           placeholder="https://…"
         />
         <UrlField
           id="docs-url"
-          label="Indirizzo del sito Documenti"
+          label="Documenti: indirizzo diverso (facoltativo)"
           value={settings.docsUrl}
           onChange={(v) => update({ docsUrl: v })}
           placeholder="https://…"

@@ -127,19 +127,19 @@ export function GitHubFace() {
 
 function LinkFace({ k, field, sub }) {
   const [settings] = useSettings()
-  const url = safeUrl(settings[field])
+  const custom = safeUrl(settings[field])
   return (
     <Face
       k={k}
-      v={url ? 'Apri' : '—'}
-      sub={url ? sub : 'Tocca per vedere come impostare il link'}
-      pill={url ? [new URL(url).hostname, 'ok'] : ['Link mancante', 'warn']}
+      v="Apri"
+      sub={sub}
+      pill={custom ? [new URL(custom).hostname, 'ok'] : ['Integrato', 'ok']}
     />
   )
 }
 
-export const WalletFace = () => <LinkFace k="Portafoglio" field="walletUrl" sub="Le tue carte, nel sito dedicato" />
-export const DocsFace = () => <LinkFace k="Documenti" field="docsUrl" sub="Documenti di identità, nel sito dedicato" />
+export const WalletFace = () => <LinkFace k="Portafoglio" field="walletUrl" sub="Carte e documenti, solo su questo dispositivo" />
+export const DocsFace = () => <LinkFace k="Documenti" field="docsUrl" sub="Documenti di identità e scansioni" />
 
 // ---------- Schede con dati inseriti a mano ----------
 

@@ -40,7 +40,9 @@ Disponibili da aggiungere in Personalizza:
 
 ### Portafoglio e Documenti
 
-Il cruscotto **non salva né carte né documenti di identità**: conserva solo il link ai tuoi siti dedicati e lo apre in una nuova scheda. Sono accettati solo indirizzi che iniziano con `https://`.
+Le due schede aprono il **wallet integrato** (cartella `public/wallet/`, copiato dal repository `wallet-documenti`) in una nuova scheda. Carte e documenti restano nel browser del dispositivo, non nel repository. In Personalizza puoi indicare un indirizzo `https://` diverso per ciascuna scheda.
+
+Il file di firma Android (`signing/wallet.keystore`) non è stato copiato: non va mai in un repository pubblico.
 
 ### Collegare Google Calendar
 

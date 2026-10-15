@@ -1,0 +1,4 @@
+Phosphor Icons (phosphor-icons/core) - MIT License, (c) Phosphor Icons
+Fluent UI Emoji (microsoft/fluentui-emoji) - MIT License, (c) Microsoft Corporation
+Tesseract.js (naptha/tesseract.js) - Apache-2.0; tesseract.js-core - Apache-2.0; Tesseract language data (tessdata_best) - Apache-2.0
+Set "Isometrico": original artwork for this project.
